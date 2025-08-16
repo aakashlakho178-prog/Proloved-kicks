@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 // 4) You can export this as a standalone page in a React app (Vite/Next) or embed into your site
 
 const BRAND_NAME = "Preloved Kicks";
-const WHATSAPP_NUMBER = "923001234567"; // <- change me!
+const WHATSAPP_NUMBER = "923033518764"; // <- change me!
 
 const categories = [
   { key: "all", label: "Sab" },
