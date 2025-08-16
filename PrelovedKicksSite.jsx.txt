@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 // 👉 Quick Setup Notes
-// 1) Replace WHATSAPP_NUMBER with your number (e.g., 923001234567)
+// 1) Replace WHATSAPP_NUMBER with your number (e.g., 923033518764)
 // 2) Replace BRAND_NAME if you want a different name
 // 3) Add your own product images (hosted links) in the products[] below
 // 4) You can export this as a standalone page in a React app (Vite/Next) or embed into your site
