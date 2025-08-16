@@ -1,158 +1,123 @@
-                               
-<!DOCTYPE html>
+                 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Preloved Kicks | Pakistan</title>
-  <style>
-    :root{--bg:#f7f7f8;--card:#ffffff;--text:#0f172a;--muted:#475569;--border:#e5e7eb;--accent:#111111;}
-    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
-    header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800}.badge{height:36px;width:36px;border-radius:12px;display:grid;place-items:center;background:var(--accent);color:#fff}
-    .wrap{max-width:1060px;margin:0 auto;padding:16px}
-    .hero{display:grid;grid-template-columns:1fr;gap:16px;padding:22px 0}
-    .hero h1{margin:0;font-size:28px;line-height:1.15} .hero p{margin:8px 0 0;color:var(--muted)}
-    .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:12px;font-weight:600;text-decoration:none}
-    .btn-primary{background:var(--accent);color:#fff} .btn-outline{border:1px solid var(--border);background:#fff;color:var(--text)}
-    .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-    .pill{display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border:1px solid var(--border);border-radius:999px;background:#fff;font-size:12px}
-    .grid{display:grid;grid-template-columns:1fr;gap:16px}
-    @media (min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
-    @media (min-width:960px){.grid{grid-template-columns:repeat(3,1fr)} .hero{grid-template-columns:1.1fr .9fr} .hero h1{font-size:38px}}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04)}
-    .card img,.placeholder{width:100%;height:220px;object-fit:cover;background:#eee;display:flex;align-items:center;justify-content:center}
-    .card svg{width:80px;height:80px;fill:#bbb}
-    .card .body{padding:12px}
-    .title{margin:4px 0;font-size:16px;font-weight:700}
-    .meta{color:var(--muted);font-size:13px}
-    .row{margin-top:8px;display:flex;align-items:center;justify-content:space-between}
-    .price{font-weight:800;font-size:18px}
-    .panel{background:#fff;border:1px solid var(--border);border-radius:20px;padding:16px;margin-top:24px}
-    footer{background:#fff;border-top:1px solid var(--border);margin-top:24px;padding:16px;font-size:14px;color:var(--muted);text-align:center}
-    .toolbar{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-    input,select{padding:10px 12px;border-radius:12px;border:1px solid var(--border);width:100%}
-    .tools{display:grid;grid-template-columns:1fr;gap:8px}
-    @media (min-width:640px){.tools{grid-template-columns:auto 220px}}
-    .icon{width:16px;height:16px;fill:currentColor}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preloved Kicks Demo</title>
+<style>
+:root{--bg:#f7f7f8;--card:#fff;--text:#0f172a;--muted:#475569;--border:#e5e7eb;--accent:#111;}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);padding:20px;}
+h1,h2{margin:10px 0;}
+input,select,button{padding:6px 10px;margin:4px 0;border-radius:8px;border:1px solid #ccc;}
+button{cursor:pointer;background:var(--accent);color:#fff;border:none;}
+.grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;}
+@media(min-width:600px){.grid{grid-template-columns:repeat(2,1fr);}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr);}}
+.card{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.1);}
+.card img,.placeholder{width:100%;height:140px;background:#eee;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.icon{width:16px;height:16px;fill:currentColor;margin-right:4px;vertical-align:middle;}
+.badges{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0;}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border:1px solid var(--border);border-radius:999px;background:#fff;font-size:12px;}
+.row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+.price{font-weight:800;}
+</style>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <div class="badge">PK</div>
-      <div>Preloved Kicks</div>
+
+<h1>Preloved Kicks Demo</h1>
+
+<h2>Add New Shoe</h2>
+<input id="title" placeholder="Shoe Name">
+<input id="price" type="number" placeholder="Price">
+<input id="size" placeholder="Size (US/EU)">
+<select id="category">
+  <option value="sneakers">Sneakers</option>
+  <option value="running">Running</option>
+  <option value="casual">Casual</option>
+  <option value="formal">Formal</option>
+</select>
+<button onclick="addShoe()">Add Shoe</button>
+
+<h2>Filter / Search</h2>
+<input id="search" placeholder="Search by name">
+<select id="filterCat">
+  <option value="all">All Categories</option>
+  <option value="sneakers">Sneakers</option>
+  <option value="running">Running</option>
+  <option value="casual">Casual</option>
+  <option value="formal">Formal</option>
+</select>
+
+<h2>Products</h2>
+<div id="grid" class="grid"></div>
+
+<script>
+const WHATSAPP = "923001234567"; // replace with your number
+let products = [
+  {title:"Nike Air",price:6999,size:"US 9 / EU 42.5",category:"sneakers"},
+  {title:"Adidas Runner",price:7499,size:"US 10 / EU 44",category:"running"},
+  {title:"Vans Old Skool",price:4999,size:"US 8.5 / EU 41",category:"casual"},
+];
+
+function waLink(p){
+  const txt = `Salam! Mujhe Preloved Kicks se is product mein interest hai:%0A%0A${p.title}%0APrice: ${p.price}%0ASize: ${p.size}%0A%0AKripya availability confirm kar dein.`;
+  return `https://wa.me/${WHATSAPP}?text=${txt}`;
+}
+
+function render(){
+  const kw = document.getElementById("search").value.toLowerCase();
+  const cat = document.getElementById("filterCat").value;
+  const grid = document.getElementById("grid");
+  const list = products.filter(p=>{
+    const matchCat = cat==="all" || p.category===cat;
+    const matchKw = !kw || p.title.toLowerCase().includes(kw);
+    return matchCat && matchKw;
+  });
+  grid.innerHTML = list.map(p=>`
+    <div class="card">
+      <div class="placeholder">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M2 18h20v-2H2v2zm3-5h14v-2H5v2zm3-5h8V6H8v2z"/></svg>
+      </div>
+      <div><strong>${p.title}</strong></div>
+      <div>${p.size}</div>
+      <div class="price">PKR ${p.price}</div>
+      <div class="badges">
+        <span class="pill"><svg class="icon" viewBox="0 0 24 24"><path d="M3 3h18v13H3V3zm0 15h18v2H3v-2z"/></svg>COD</span>
+        <span class="pill"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6H9.31l-.95-2.34A1 1 0 0 0 7.45 3H4a1 1 0 0 0 0 2h2.55l3.75 9.34a1 1 0 0 0 .93.66H19a1 1 0 0 0 .92-.62l3-7A1 1 0 0 0 22 6h-2z"/></svg>Cleaned</span>
+        <span class="pill"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 9.95 11h-2.02a8 8 0 1 1-2.23-6.36L15 9h7V2l-2.07 2.07A9.93 9.93 0 0 0 12 2z"/></svg>7-Day Exchange</span>
+      </div>
+      <div class="row">
+        <a href="${waLink(p)}" target="_blank"><button>Order</button></a>
+      </div>
     </div>
-    <a class="btn btn-primary" href="https://wa.me/923001234567?text=Salam!%20Shoes%20chahiye." target="_blank" rel="noopener">
-      <svg class="icon" viewBox="0 0 32 32"><path d="M16 .4C7.6.4.8 7.2.8 15.6c0 2.7.8 5.3 2.2 7.6L.4 31.6l8.7-2.6c2.2 1.2 4.7 1.8 7.3 1.8 8.4 0 15.2-6.8 15.2-15.2S24.4.4 16 .4zm0 27.2c-2.3 0-4.5-.6-6.4-1.8l-.5-.3-5.2 1.6 1.7-5-.3-.5c-1.2-1.9-1.9-4.1-1.9-6.3C3.4 8.5 9 2.8 16 2.8c7 0 12.6 5.7 12.6 12.6S23 27.6 16 27.6zm7-9c-.4-.2-2.1-1-2.4-1.1-.3-.1-.5-.2-.7.2-.2.4-.8 1.1-.9 1.3-.2.2-.3.3-.7.1-1.9-.9-3.1-1.6-4.3-3.6-.3-.4 0-.6.2-.8.2-.2.4-.4.5-.6.2-.2.2-.4 0-.7-.1-.2-.7-1.8-.9-2.5-.2-.7-.5-.6-.7-.6h-.6c-.2 0-.7.1-1.1.5-.4.4-1.4 1.3-1.4 3.1s1.4 3.6 1.6 3.9c.2.2 2.7 4.1 6.6 5.6.9.3 1.6.5 2.1.6.9.1 1.8.1 2.4-.1.7-.1 2.1-1 2.4-1.9.3-.9.3-1.7.2-1.9-.1-.2-.4-.3-.8-.5z"/></svg>
-      WhatsApp
-    </a>
-  </header>
+  `).join("");
+}
 
-  <main class="wrap">
-    <!-- HERO -->
-    <section class="hero">
-      <div>
-        <h1>Preloved, Authentic, Budget-Friendly Kicks</h1>
-        <p>Branded used shoes — cleaned, quality-checked & pocket-friendly. All Pakistan COD & 7-day exchange policy.</p>
-        <div class="badges">
-          <span class="pill"><svg class="icon" viewBox="0 0 24 24"><path d="M3 3h18v13H3V3zm0 15h18v2H3v-2z"/></svg> All Pakistan COD</span>
-          <span class="pill"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6H9.31l-.95-2.34A1 1 0 0 0 7.45 3H4a1 1 0 0 0 0 2h2.55l3.75 9.34a1 1 0 0 0 .93.66H19a1 1 0 0 0 .92-.62l3-7A1 1 0 0 0 22 6h-2z"/></svg> Cleaned & QC</span>
-          <span class="pill"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 9.95 11h-2.02a8 8 0 1 1-2.23-6.36L15 9h7V2l-2.07 2.07A9.93 9.93 0 0 0 12 2z"/></svg> 7-Day Exchange</span>
-        </div>
-        <div class="toolbar">
-          <a class="btn btn-primary" href="#shop">Shop Now</a>
-          <a class="btn btn-outline" href="#how">Kaise Kaam Karta Hai</a>
-        </div>
-      </div>
-      <div class="card placeholder">
-        <svg viewBox="0 0 24 24"><path d="M2 18h20v-2H2v2zm3-5h14v-2H5v2zm3-5h8V6H8v2z"/></svg>
-      </div>
-    </section>
-
-    <!-- CONTROLS -->
-    <section id="shop">
-      <h2 style="margin:0 0 8px 0;">Fresh Arrivals</h2>
-      <div class="tools">
-        <input id="q" placeholder="Search: Nike, Adidas, size, etc.">
-        <select id="cat">
-          <option value="all">Sab</option>
-          <option value="sneakers">Sneakers</option>
-          <option value="running">Running</option>
-          <option value="casual">Casual</option>
-          <option value="formal">Formal</option>
-        </select>
-      </div>
-
-      <!-- PRODUCTS -->
-      <div id="grid" class="grid" style="margin-top:12px;"></div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section id="how" class="panel">
-      <h2 style="margin-top:0">Kaise Kaam Karta Hai</h2>
-      <ol>
-        <li><strong>1) Select & DM:</strong> Product choose karo, WhatsApp par size & city bhejo (live pics/video mil sakti hain).</li>
-        <li><strong>2) COD / Advance:</strong> All Pakistan COD.</li>
-        <li><strong>3) 7-Day Exchange:</strong> Size issue? 7 din me exchange/return (terms apply).</li>
-      </ol>
-    </section>
-  </main>
-
-  <footer>
-    © <span id="yr"></span> Preloved Kicks — Contact: <a href="https://wa.me/923033518764" target="_blank" rel="noopener">WhatsApp</a>
-  </footer>
-
-  <script>
-    const WHATSAPP = "923033518764"; 
-    const products = [
-      {title:"Nike Air – Preloved", price:6999, category:"sneakers", size:"US 9 / EU 42.5", condition:"8/10 – Light Wear"},
-      {title:"Adidas Ultraboost – Used", price:7499, category:"running", size:"US 10 / EU 44", condition:"9/10 – Very Clean"},
-      {title:"Vans Old Skool – Preloved", price:4999, category:"casual", size:"US 8.5 / EU 41", condition:"7/10 – Minor Scuffs"},
-      {title:"Skechers GoWalk – Used", price:3999, category:"casual", size:"US 9 / EU 42", condition:"8/10 – Clean"},
-      {title:"New Balance 574 – Preloved", price:6299, category:"sneakers", size:"US 9.5 / EU 43", condition:"8.5/10 – Fresh"},
-      {title:"Puma Runner – Used", price:4499, category:"running", size:"US 8 / EU 41", condition:"7.5/10 – Good"}
-    ];
-
-    const $ = (s)=>document.querySelector(s);
-    const nf = new Intl.NumberFormat("en-PK",{style:"currency",currency:"PKR",maximumFractionDigits:0});
-    const grid = $("#grid"), q = $("#q"), cat = $("#cat");
-
-    function waLink(p){
-      const txt = `Salam! Mujhe Preloved Kicks se is product mein interest hai:%0A%0A${p.title}%0APrice: ${nf.format(p.price)}%0ASize: ${p.size}%0A%0AKripya availability confirm kar dein.`;
-      return `https://wa.me/${WHATSAPP}?text=${txt}`;
-    }
-
-    function render(){
-      const kw = (q.value||"").toLowerCase();
-      const c = cat.value;
-      const list = products.filter(p=>{
-        const matchCat = c==="all" || p.category===c;
-        const matchQ = !kw || p.title.toLowerCase().includes(kw);
-        return matchCat && matchQ;
-      });
-      grid.innerHTML = list.map(p=>`
-        <article class="card">
-          <div class="placeholder"><svg viewBox="0 0 24 24"><path d="M2 18h20v-2H2v2zm3-5h14v-2H5v2zm3-5h8V6H8v2z"/></svg></div>
-          <div class="body">
-            <div class="title">${p.title}</div>
-            <div class="meta">${p.size} • ${p.condition}</div>
-            <div class="row">
-              <div class="price">${nf.format(p.price)}</div>
-              <a class="btn btn-primary" href="${waLink(p)}" target="_blank" rel="noopener">Order</a>
-            </div>
-          </div>
-        </article>
-      `).join("");
-    }
-
-    q.addEventListener("input", render);
-    cat.addEventListener("change", render);
-    document.getElementById("yr").textContent = new Date().getFullYear();
+function addShoe(){
+  const title = document.getElementById("title").value;
+  const price = parseInt(document.getElementById("price").value);
+  const size = document.getElementById("size").value;
+  const category = document.getElementById("category").value;
+  if(title && price && size){
+    products.push({title,price,size,category});
     render();
-  </script>
+    document.getElementById("title").value="";
+    document.getElementById("price").value="";
+    document.getElementById("size").value="";
+  } else {
+    alert("Please fill all fields!");
+  }
+}
+
+document.getElementById("search").addEventListener("input",render);
+document.getElementById("filterCat").addEventListener("change",render);
+
+render();
+</script>
+
 </body>
-</html>
+</html>              
+ 
     <p>📞 Contact us on WhatsApp: +92 3033518764</p>
     <p>© 2025 Preloved Kicks</p>
   </footer>
