@@ -1,123 +1,163 @@
-                 <!DOCTYPE html>
+                  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Preloved Kicks Demo</title>
+<title>Preloved Kicks Admin</title>
 <style>
-:root{--bg:#f7f7f8;--card:#fff;--text:#0f172a;--muted:#475569;--border:#e5e7eb;--accent:#111;}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);padding:20px;}
-h1,h2{margin:10px 0;}
-input,select,button{padding:6px 10px;margin:4px 0;border-radius:8px;border:1px solid #ccc;}
-button{cursor:pointer;background:var(--accent);color:#fff;border:none;}
-.grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;}
-@media(min-width:600px){.grid{grid-template-columns:repeat(2,1fr);}}
-@media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr);}}
-.card{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.1);}
-.card img,.placeholder{width:100%;height:140px;background:#eee;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
-.icon{width:16px;height:16px;fill:currentColor;margin-right:4px;vertical-align:middle;}
-.badges{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0;}
-.pill{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border:1px solid var(--border);border-radius:999px;background:#fff;font-size:12px;}
-.row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
-.price{font-weight:800;}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#f7f7f8;color:#111;margin:0;padding:16px;}
+h1,h2{margin:8px 0;}
+input,select,textarea,button{padding:8px 10px;margin:4px 0;border-radius:8px;border:1px solid #ccc;width:100%;}
+button{cursor:pointer;background:#111;color:#fff;border:none;}
+.grid{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px;}
+@media(min-width:640px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:#fff;border-radius:12px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.1);position:relative;}
+.card img{width:100%;height:180px;object-fit:cover;border-radius:8px;}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;}
+.price{font-weight:700;}
+.actions{display:flex;gap:4px;margin-top:6px;}
+.actions button{padding:4px 8px;font-size:0.8rem;}
+.filter-section{margin-top:16px;margin-bottom:16px;}
 </style>
 </head>
 <body>
 
-<h1>Preloved Kicks Demo</h1>
+<h1>Preloved Kicks Admin Panel</h1>
 
-<h2>Add New Shoe</h2>
-<input id="title" placeholder="Shoe Name">
-<input id="price" type="number" placeholder="Price">
-<input id="size" placeholder="Size (US/EU)">
-<select id="category">
-  <option value="sneakers">Sneakers</option>
-  <option value="running">Running</option>
-  <option value="casual">Casual</option>
-  <option value="formal">Formal</option>
-</select>
-<button onclick="addShoe()">Add Shoe</button>
+<section>
+  <h2>Add / Edit Shoe</h2>
+  <input type="hidden" id="editIndex">
+  <input type="text" id="title" placeholder="Shoe Title (e.g., Nike Air)">
+  <input type="text" id="size" placeholder="Size (e.g., US 9 / EU 42.5)">
+  <input type="text" id="condition" placeholder="Condition (e.g., 8/10 Light Wear)">
+  <input type="number" id="price" placeholder="Price (PKR)">
+  <input type="text" id="img" placeholder="Image URL">
+  <select id="category">
+    <option value="sneakers">Sneakers</option>
+    <option value="running">Running</option>
+    <option value="casual">Casual</option>
+    <option value="formal">Formal</option>
+  </select>
+  <button id="addBtn">Add / Update Shoe</button>
+</section>
 
-<h2>Filter / Search</h2>
-<input id="search" placeholder="Search by name">
-<select id="filterCat">
-  <option value="all">All Categories</option>
-  <option value="sneakers">Sneakers</option>
-  <option value="running">Running</option>
-  <option value="casual">Casual</option>
-  <option value="formal">Formal</option>
-</select>
+<section class="filter-section">
+  <label for="filterCat">Filter by Category:</label>
+  <select id="filterCat">
+    <option value="all">All</option>
+    <option value="sneakers">Sneakers</option>
+    <option value="running">Running</option>
+    <option value="casual">Casual</option>
+    <option value="formal">Formal</option>
+  </select>
+</section>
 
-<h2>Products</h2>
-<div id="grid" class="grid"></div>
+<section>
+  <h2>Product List</h2>
+  <div id="grid" class="grid"></div>
+</section>
 
 <script>
-const WHATSAPP = "923001234567"; // replace with your number
-let products = [
-  {title:"Nike Air",price:6999,size:"US 9 / EU 42.5",category:"sneakers"},
-  {title:"Adidas Runner",price:7499,size:"US 10 / EU 44",category:"running"},
-  {title:"Vans Old Skool",price:4999,size:"US 8.5 / EU 41",category:"casual"},
-];
+const WHATSAPP = "923033518764"; // apka WhatsApp number
+let products = JSON.parse(localStorage.getItem("products")) || [];
+
+const grid = document.getElementById('grid');
+const titleInput = document.getElementById('title');
+const sizeInput = document.getElementById('size');
+const conditionInput = document.getElementById('condition');
+const priceInput = document.getElementById('price');
+const imgInput = document.getElementById('img');
+const categoryInput = document.getElementById('category');
+const editIndexInput = document.getElementById('editIndex');
+const addBtn = document.getElementById('addBtn');
+const filterCat = document.getElementById('filterCat');
+
+function saveProducts(){ localStorage.setItem("products", JSON.stringify(products)); }
 
 function waLink(p){
-  const txt = `Salam! Mujhe Preloved Kicks se is product mein interest hai:%0A%0A${p.title}%0APrice: ${p.price}%0ASize: ${p.size}%0A%0AKripya availability confirm kar dein.`;
+  const txt = `Salam! Mujhe Preloved Kicks se is product mein interest hai:%0A%0A${p.title}%0APrice: PKR ${p.price}%0ASize: ${p.size}%0A%0AKripya availability confirm kar dein.`;
   return `https://wa.me/${WHATSAPP}?text=${txt}`;
 }
 
-function render(){
-  const kw = document.getElementById("search").value.toLowerCase();
-  const cat = document.getElementById("filterCat").value;
-  const grid = document.getElementById("grid");
-  const list = products.filter(p=>{
-    const matchCat = cat==="all" || p.category===cat;
-    const matchKw = !kw || p.title.toLowerCase().includes(kw);
-    return matchCat && matchKw;
-  });
-  grid.innerHTML = list.map(p=>`
-    <div class="card">
-      <div class="placeholder">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M2 18h20v-2H2v2zm3-5h14v-2H5v2zm3-5h8V6H8v2z"/></svg>
+function render(filter="all"){
+  grid.innerHTML = products.filter(p=>filter==="all"?true:p.category===filter)
+    .map((p,i)=>`
+      <div class="card">
+        <img src="${p.img}" alt="${p.title}">
+        <div class="title"><strong>${p.title}</strong></div>
+        <div class="meta">${p.size} • ${p.condition}</div>
+        <div class="row">
+          <div class="price">PKR ${p.price}</div>
+          <a href="${waLink(p)}" target="_blank"><button>Order</button></a>
+        </div>
+        <div class="actions">
+          <button onclick="editShoe(${i})">Edit</button>
+          <button onclick="deleteShoe(${i})">Delete</button>
+        </div>
       </div>
-      <div><strong>${p.title}</strong></div>
-      <div>${p.size}</div>
-      <div class="price">PKR ${p.price}</div>
-      <div class="badges">
-        <span class="pill"><svg class="icon" viewBox="0 0 24 24"><path d="M3 3h18v13H3V3zm0 15h18v2H3v-2z"/></svg>COD</span>
-        <span class="pill"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6H9.31l-.95-2.34A1 1 0 0 0 7.45 3H4a1 1 0 0 0 0 2h2.55l3.75 9.34a1 1 0 0 0 .93.66H19a1 1 0 0 0 .92-.62l3-7A1 1 0 0 0 22 6h-2z"/></svg>Cleaned</span>
-        <span class="pill"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 9.95 11h-2.02a8 8 0 1 1-2.23-6.36L15 9h7V2l-2.07 2.07A9.93 9.93 0 0 0 12 2z"/></svg>7-Day Exchange</span>
-      </div>
-      <div class="row">
-        <a href="${waLink(p)}" target="_blank"><button>Order</button></a>
-      </div>
-    </div>
-  `).join("");
+    `).join('');
 }
 
-function addShoe(){
-  const title = document.getElementById("title").value;
-  const price = parseInt(document.getElementById("price").value);
-  const size = document.getElementById("size").value;
-  const category = document.getElementById("category").value;
-  if(title && price && size){
-    products.push({title,price,size,category});
-    render();
-    document.getElementById("title").value="";
-    document.getElementById("price").value="";
-    document.getElementById("size").value="";
-  } else {
-    alert("Please fill all fields!");
+function clearForm(){
+  titleInput.value = sizeInput.value = conditionInput.value = priceInput.value = imgInput.value = "";
+  editIndexInput.value = "";
+  addBtn.textContent = "Add Shoe";
+}
+
+function editShoe(i){
+  const p = products[i];
+  titleInput.value = p.title;
+  sizeInput.value = p.size;
+  conditionInput.value = p.condition;
+  priceInput.value = p.price;
+  imgInput.value = p.img;
+  categoryInput.value = p.category;
+  editIndexInput.value = i;
+  addBtn.textContent = "Update Shoe";
+}
+
+function deleteShoe(i){
+  if(confirm("Are you sure you want to delete this shoe?")){
+    products.splice(i,1);
+    saveProducts();
+    render(filterCat.value);
   }
 }
 
-document.getElementById("search").addEventListener("input",render);
-document.getElementById("filterCat").addEventListener("change",render);
+addBtn.addEventListener('click', ()=>{
+  const newShoe = {
+    title: titleInput.value,
+    size: sizeInput.value,
+    condition: conditionInput.value,
+    price: parseInt(priceInput.value),
+    img: imgInput.value,
+    category: categoryInput.value
+  };
+  if(!newShoe.title || !newShoe.price || !newShoe.img){
+    alert("Please fill title, price & image URL!");
+    return;
+  }
+  const editIndex = editIndexInput.value;
+  if(editIndex===""){
+    products.push(newShoe);
+  }else{
+    products[editIndex] = newShoe;
+  }
+  saveProducts();
+  render(filterCat.value);
+  clearForm();
+});
+
+filterCat.addEventListener('change', ()=>{
+  render(filterCat.value);
+});
 
 render();
 </script>
 
 </body>
-</html>              
- 
+</html>
     <p>📞 Contact us on WhatsApp: +92 3033518764</p>
     <p>© 2025 Preloved Kicks</p>
   </footer>
