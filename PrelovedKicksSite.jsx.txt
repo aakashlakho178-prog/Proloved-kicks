@@ -1,0 +1,285 @@
+import React, { useMemo, useState } from "react";
+import { motion } from "framer-motion";
+
+// 👉 Quick Setup Notes
+// 1) Replace WHATSAPP_NUMBER with your number (e.g., 923001234567)
+// 2) Replace BRAND_NAME if you want a different name
+// 3) Add your own product images (hosted links) in the products[] below
+// 4) You can export this as a standalone page in a React app (Vite/Next) or embed into your site
+
+const BRAND_NAME = "Preloved Kicks";
+const WHATSAPP_NUMBER = "923001234567"; // <- change me!
+
+const categories = [
+  { key: "all", label: "Sab" },
+  { key: "sneakers", label: "Sneakers" },
+  { key: "running", label: "Running" },
+  { key: "casual", label: "Casual" },
+  { key: "formal", label: "Formal" },
+];
+
+const products = [
+  {
+    id: 1,
+    title: "Nike Air – Preloved",
+    price: 6999,
+    category: "sneakers",
+    size: "US 9 / EU 42.5",
+    condition: "8/10 – Light Wear",
+    img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: 2,
+    title: "Adidas Ultraboost – Used",
+    price: 7499,
+    category: "running",
+    size: "US 10 / EU 44",
+    condition: "9/10 – Very Clean",
+    img: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: 3,
+    title: "Vans Old Skool – Preloved",
+    price: 4999,
+    category: "casual",
+    size: "US 8.5 / EU 41",
+    condition: "7/10 – Minor Scuffs",
+    img: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: 4,
+    title: "Skechers GoWalk – Used",
+    price: 3999,
+    category: "casual",
+    size: "US 9 / EU 42",
+    condition: "8/10 – Clean",
+    img: "https://images.unsplash.com/photo-1543508282-6319a3e2621f?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: 5,
+    title: "New Balance 574 – Preloved",
+    price: 6299,
+    category: "sneakers",
+    size: "US 9.5 / EU 43",
+    condition: "8.5/10 – Fresh",
+    img: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: 6,
+    title: "Puma Runner – Used",
+    price: 4499,
+    category: "running",
+    size: "US 8 / EU 41",
+    condition: "7.5/10 – Good",
+    img: "https://images.unsplash.com/photo-1519741497200-290f2162a859?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: 7,
+    title: "Leather Derby – Preloved",
+    price: 5499,
+    category: "formal",
+    size: "EU 42",
+    condition: "8/10 – Minor Crease",
+    img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    id: 8,
+    title: "Converse Chuck 70 – Used",
+    price: 5299,
+    category: "casual",
+    size: "US 9 / EU 42",
+    condition: "8/10 – Clean",
+    img: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop",
+  },
+];
+
+function currencyPKR(n) {
+  return new Intl.NumberFormat("en-PK", { style: "currency", currency: "PKR", maximumFractionDigits: 0 }).format(n);
+}
+
+const Badge = ({ icon, text }) => (
+  <div className="flex items-center gap-3 rounded-2xl border p-3 shadow-sm bg-white/70 backdrop-blur">
+    <span className="text-xl">{icon}</span>
+    <span className="text-sm font-medium">{text}</span>
+  </div>
+);
+
+export default function PrelovedKicksSite() {
+  const [q, setQ] = useState("");
+  const [cat, setCat] = useState("all");
+
+  const filtered = useMemo(() => {
+    return products.filter((p) => {
+      const matchCat = cat === "all" || p.category === cat;
+      const matchQ = !q || p.title.toLowerCase().includes(q.toLowerCase());
+      return matchCat && matchQ;
+    });
+  }, [q, cat]);
+
+  const waLink = (p) =>
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+      `Salam! Mujhe ${BRAND_NAME} se is product mein interest hai:\n\n${p.title}\nPrice: ${currencyPKR(p.price)}\nSize: ${p.size}\n\nKripya availability confirm kar dein.`
+    )}`;
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-zinc-50 text-zinc-900">
+      {/* Navbar */}
+      <header className="sticky top-0 z-30 border-b bg-white/80 backdrop-blur">
+        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="h-9 w-9 rounded-2xl bg-black text-white grid place-items-center font-bold">PK</div>
+            <span className="font-bold text-lg">{BRAND_NAME}</span>
+          </div>
+          <nav className="hidden md:flex items-center gap-6 text-sm">
+            <a href="#shop" className="hover:opacity-80">Shop</a>
+            <a href="#how" className="hover:opacity-80">Kaise Kaam Karta Hai</a>
+            <a href="#contact" className="hover:opacity-80">Contact</a>
+          </nav>
+          <a
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Salam! Mujhe shoes chahiye.")}`}
+            className="rounded-2xl px-4 py-2 bg-black text-white text-sm font-medium shadow hover:opacity-90"
+          >
+            WhatsApp
+          </a>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section className="relative overflow-hidden">
+        <div className="mx-auto max-w-6xl px-4 py-12 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <h1 className="text-3xl md:text-5xl font-extrabold leading-tight">
+              Preloved, Authentic, Budget‑Friendly <span className="whitespace-nowrap">Kicks 👟</span>
+            </h1>
+            <p className="mt-4 text-zinc-600 md:text-lg">
+              Roman Urdu mein seedha: yahan milti hain **branded used shoes** jo clean, verified aur pocket‑friendly hoti hain. Cash on Delivery aur **7 din return** policy.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Badge icon="🚚" text="All Pakistan COD" />
+              <Badge icon="🧼" text="Cleaned & Quality Check" />
+              <Badge icon="♻️" text="7 Din Return/Exchange" />
+            </div>
+            <div className="mt-8 flex gap-3">
+              <a href="#shop" className="rounded-2xl px-5 py-3 bg-black text-white font-medium shadow hover:opacity-90">Shop Now</a>
+              <a href="#how" className="rounded-2xl px-5 py-3 border font-medium shadow-sm hover:bg-white">Kaise Kaam Karta Hai</a>
+            </div>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.1 }}>
+            <div className="aspect-[4/3] w-full rounded-3xl overflow-hidden shadow-lg border bg-white">
+              <img
+                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1600&auto=format&fit=crop"
+                alt="Hero Shoes"
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Controls */}
+      <section id="shop" className="mx-auto max-w-6xl px-4 pb-2">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <h2 className="text-2xl md:text-3xl font-bold">Fresh Arrivals</h2>
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search: Nike, Adidas, size, etc."
+              className="w-full sm:w-72 rounded-2xl border px-4 py-2.5 shadow-sm outline-none focus:ring-2 focus:ring-black/20"
+            />
+            <select
+              value={cat}
+              onChange={(e) => setCat(e.target.value)}
+              className="w-full sm:w-44 rounded-2xl border px-4 py-2.5 shadow-sm"
+            >
+              {categories.map((c) => (
+                <option key={c.key} value={c.key}>{c.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </section>
+
+      {/* Grid */}
+      <section className="mx-auto max-w-6xl px-4 py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filtered.map((p) => (
+          <motion.article key={p.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }} className="rounded-3xl border bg-white overflow-hidden shadow-sm hover:shadow-md">
+            <div className="aspect-[4/3] w-full bg-zinc-100 overflow-hidden">
+              <img src={p.img} alt={p.title} className="h-full w-full object-cover" />
+            </div>
+            <div className="p-4">
+              <h3 className="font-semibold text-lg leading-snug">{p.title}</h3>
+              <div className="mt-1 text-sm text-zinc-600">{p.size} • {p.condition}</div>
+              <div className="mt-3 flex items-center justify-between">
+                <div className="text-xl font-bold">{currencyPKR(p.price)}</div>
+                <a href={waLink(p)} target="_blank" rel="noreferrer" className="rounded-2xl px-4 py-2 text-sm font-medium bg-black text-white hover:opacity-90">Order via WhatsApp</a>
+              </div>
+            </div>
+          </motion.article>
+        ))}
+      </section>
+
+      {/* How it works */}
+      <section id="how" className="mx-auto max-w-6xl px-4 py-12">
+        <div className="rounded-3xl border bg-white p-6 md:p-10 shadow-sm">
+          <h2 className="text-2xl md:text-3xl font-bold">Kaise Kaam Karta Hai</h2>
+          <ol className="mt-4 grid gap-4 md:grid-cols-3">
+            <li className="rounded-2xl border p-4">
+              <div className="font-semibold">1) Select & DM</div>
+              <p className="text-zinc-600 text-sm mt-1">Product choose karo, WhatsApp pe size & city send karo. Live pics/Video bhi mil sakti hain.</p>
+            </li>
+            <li className="rounded-2xl border p-4">
+              <div className="font-semibold">2) COD / Advance</div>
+              <p className="text-zinc-600 text-sm mt-1">All Pakistan COD. Karachi/Lahore same‑day options. Advance pe courier discount milega.</p>
+            </li>
+            <li className="rounded-2xl border p-4">
+              <div className="font-semibold">3) 7 Din Return</div>
+              <p className="text-zinc-600 text-sm mt-1">Size issue? 7 din ke andar exchange/return policy (conditions apply).</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      {/* Contact / CTA */}
+      <section id="contact" className="mx-auto max-w-6xl px-4 pb-16">
+        <div className="rounded-3xl border bg-white p-6 md:p-10 shadow-sm grid md:grid-cols-2 gap-6 items-center">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold">WhatsApp par order karo</h2>
+            <p className="mt-2 text-zinc-600">Size, city aur product ka screenshot bhej dein. Team 10AM–10PM reply karti hai.</p>
+            <div className="mt-5 flex gap-3">
+              <a
+                href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Salam! Shoes order karna hai.")}`}
+                className="rounded-2xl px-5 py-3 bg-black text-white font-medium shadow hover:opacity-90"
+              >
+                Open WhatsApp
+              </a>
+              <a href="#shop" className="rounded-2xl px-5 py-3 border font-medium shadow-sm hover:bg-white">Browse Products</a>
+            </div>
+          </div>
+          <div className="rounded-2xl border p-5 bg-gradient-to-br from-zinc-50 to-white">
+            <ul className="space-y-3 text-sm">
+              <li>📦 Delivery: All Pakistan (TCS/Leopards)</li>
+              <li>💳 Payment: COD / Bank Transfer / JazzCash</li>
+              <li>🧼 Condition: Cleaned & Quality Checked</li>
+              <li>♻️ Return/Exchange: 7 din (Terms apply)</li>
+              <li>📍 City: Karachi (Warehouse) — Pickup by appt.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t bg-white/70">
+        <div className="mx-auto max-w-6xl px-4 py-6 text-sm flex flex-col md:flex-row items-center justify-between gap-3">
+          <div className="text-zinc-600">© {new Date().getFullYear()} {BRAND_NAME}. All rights reserved.</div>
+          <div className="flex items-center gap-4 text-zinc-600">
+            <a href="#" className="hover:opacity-80">Privacy</a>
+            <a href="#" className="hover:opacity-80">Returns</a>
+            <a href="#" className="hover:opacity-80">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
